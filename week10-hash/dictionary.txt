@@ -1,0 +1,3 @@
+cat = meow meow
+dog = Hong Hong
+bird = jib jib
