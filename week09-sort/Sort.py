@@ -67,31 +67,77 @@ def merge( l, A, B, B_end):
     l.index(A).data = ele
     A += 1
 
-def quickSort( l, low=None, high=None ): 
+def quickSort( l, low=None, high=None, count=None ): 
   low = 0 if low is None else low
   high = len(l)-1 if high is None else high
+  count = 0 if count is None else count
 
   if low < high: 
-    pi = partition(l,low,high) 
+    # pi = partitionLast(l,low,high) 
+    # pi = partitionMid(l,low,high) 
+    pi, count = partitionFirst(l,low,high) 
 
-    quickSort(l, low, pi-1) 
-    quickSort(l, pi+1, high) 
+    count += quickSort(l, low, pi-1, count) 
+    count += quickSort(l, pi+1, high, count) 
+  return count
 
-def partition( l, low, high ): 
-  i = low-1                  
-  pivot = l.index(high).data            
+def partitionLast( l, low, high ): # pivot last
+  i, j, pivot = low, high-1, high
 
-  for j in range(low, high):  
-    if l.index(j).data <= pivot: 
-      i += 1          
-      l.index(i).data, l.index(j).data = l.index(j).data, l.index(i).data 
+  while True:
+    while l.index(i).data < l.index(pivot).data:
+      i += 1
+    while l.index(j).data > l.index(pivot).data:
+      j -= 1
+    if i < j:
+      l.index(i).data, l.index(j).data = l.index(j).data, l.index(i).data
+    else:
+      l.index(i).data, l.index(pivot).data = l.index(pivot).data, l.index(i).data
+      break    
+  return i
 
-  l.index(i+1).data, l.index(high).data = l.index(high).data, l.index(i+1).data 
-  return i+1  
+def partitionMid( l, low, high ): # pivot mid
+  i, j, pivot = low, high-1, (low+high)//2
 
+  l.index(high).data, l.index(pivot).data = l.index(pivot).data, l.index(high).data
+  pivot = high
+  
+  while True:
+    while l.index(i).data < l.index(pivot).data:
+      i += 1
+    while l.index(j).data > l.index(pivot).data:
+      if j <= 0:
+        break
+      j -= 1
+    if i < j:
+      l.index(i).data, l.index(j).data = l.index(j).data, l.index(i).data
+    else:
+      l.index(i).data, l.index(pivot).data = l.index(pivot).data, l.index(i).data
+      break  
+    
+  return i
 
+def partitionFirst( l, low, high ): # pivot first
+  i, j, pivot = low+1, high, low
+  count = 0
 
-
+  while True:
+    if i < len(l)-1:
+      while l.index(i).data < l.index(pivot).data:
+        i += 1
+        count += 1
+    while l.index(j).data > l.index(pivot).data:
+      j -= 1
+      count += 1
+    if i < j:
+      l.index(i).data, l.index(j).data = l.index(j).data, l.index(i).data
+      count += 1
+    else:
+      l.index(j).data, l.index(pivot).data = l.index(pivot).data, l.index(j).data
+      count += 1
+      break    
+  return i, count
+  
 
 
 
