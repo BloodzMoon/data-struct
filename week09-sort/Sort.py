@@ -73,9 +73,9 @@ def quickSort( l, low=None, high=None, count=None ):
   count = 0 if count is None else count
 
   if low < high: 
-    # pi = partitionLast(l,low,high) 
+    pi = partitionLast(l,low,high) 
     # pi = partitionMid(l,low,high) 
-    pi, count = partitionFirst(l,low,high) 
+    # pi, count = partitionFirst(l,low,high) 
 
     count += quickSort(l, low, pi-1, count) 
     count += quickSort(l, pi+1, high, count) 

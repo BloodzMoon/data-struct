@@ -67,6 +67,7 @@ def move( n, src, dest ):
     print('Move', s, 'to', d)
     move(n-1, keep, d)
     
+
 def sum1( n, l ):
   if n is 1:
     return l[0]
